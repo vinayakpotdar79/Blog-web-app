@@ -1,0 +1,71 @@
+<%- include("partials/header") %>
+
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-10 px-6 transition-colors">
+  <div class="max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md p-8">
+    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Create New Blog</h2>
+
+    <form action="/add" method="POST" enctype="multipart/form-data" class="space-y-6">
+      <div>
+        <label for="title" class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Title</label>
+        <input type="text" name="title" id="title" required
+          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      </div>
+
+      <div>
+        <label for="metaDescription" class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Meta Description</label>
+        <textarea name="metaDescription" id="metaDescription" rows="3" required
+          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+      </div>
+
+      <div>
+        <label for="content" class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Content</label>
+        <textarea name="content" id="content" rows="8" required
+          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+      </div>
+
+      <div>
+        <label for="featuredImage" class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Featured Image</label>
+        <input type="file" name="featuredImage" id="featuredImage" accept="image/*"
+          class="w-full text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 file:border file:rounded-lg file:mr-4 file:bg-indigo-600
+           file:text-white file:py-2 file:px-4 hover:file:bg-indigo-700 transition" onchange="previewImage(event)" required>
+        <img id="imagePreview" class="mt-4 w-full h-64 object-cover rounded-lg hidden" alt="Image Preview" />
+      </div>
+
+      <button type="submit" 
+        class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 hover:cursor-pointer transition">Publish</button>
+    </form>
+  </div>
+</div>
+<!-- Popup Message -->
+<div class="message fixed inset-0 items-center justify-center z-50 hidden">
+  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 text-center max-w-md w-full">
+    <h2 class="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-4">Post Published!</h2>
+    <p class="text-gray-700 dark:text-gray-300 text-xl">New blog is Successfully Created</p>
+  </div>
+</div>
+
+ <script>
+  function previewImage(event) {
+    const imagePreview = document.getElementById('imagePreview');
+  imagePreview.src = URL.createObjectURL(event.target.files[0]); //Gets the uploaded file (only the first one if multiple). Creates a temporary URL that represents the file.
+    imagePreview.classList.remove('hidden');
+  }
+
+  const form = document.querySelector("form");
+  const messageBox = document.querySelector(".message");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  messageBox.classList.remove("hidden");
+  messageBox.classList.add("flex");
+
+  //  fade-in
+  setTimeout(() => messageBox.classList.add("opacity-100"), 10);
+
+  // Submit after delay
+  setTimeout(() => form.submit(),2000);
+});
+</script>
+
+<%- include("partials/footer") %>
